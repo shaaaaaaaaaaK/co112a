@@ -42,18 +42,25 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
-   Mux16(a=x,b[0..15]=false,sel=zx,out=zxout);
-   Not16(in=zxout,out=xbar);
-   Mux16(a=zxout,b=xbar,sel=nx,out=nxout);
+    // Put you code here:
+    Mux16(a=x,b[0..15]=false,sel=zx,out=zxout);
+    Not16(in=zxout,out=xbar);
+    Mux16(a=zxout,b=xbar,sel=nx,out=nxout);
 
-   Mux16(a=y,b[0..15]=false,sel=zy,out=zyout);
-   Not16(in=zyout,out=ybar);
-   Mux16(a=zyout,b=ybar,sel=ny,out=nyout);
+    Mux16(a=y,b[0..15]=false,sel=zy,out=zyout);
+    Not16(in=zyout,out=ybar);
+    Mux16(a=zyout,b=ybar,sel=ny,out=nyout);
 
-   Add16(a=nxout,b=nyout,out=fadd);
-   And16(a=nxout,b=nyout,out=fand);
-   Mux16(a=fand,b=fadd,sel=f,out=fout);
-   Not16(in=fout,out=fbar);
-   Mux16(a=fout,b=fbar,sel=no,out=out);
+    Add16(a=nxout,b=nyout,out=fadd);
+    And16(a=nxout,b=nyout,out=fand);
+    Mux16(a=fand,b=fadd,sel=f,out=fout);
+    Not16(in=fout,out=fbar);
+    Mux16(a=fout,b=fbar,sel=no,out=oo);
+
+    Or16Way(in=oo,out=zer);
+    Not(in=zer,out=zr);
+    
+    And16(a[0..15]=true,b=oo,out[15]=ng,out[0..14]=drop); //ng
+    Or16(a=oo,b[0..15]=false,out=out); //oo=output
+
 }
