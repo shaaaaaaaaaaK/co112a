@@ -12,31 +12,47 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
-    @8192 
-	D=A
-	@0
-	M=D 
-	@24576
-	D=M
-	@18
-	D;JNE 
-	@0 
-	D=M 
-	M=M-1 
-	@0
-	D;JEQ 
-	@16383
-	A=D+A 
-	M=0 
-	@8
-	0;JMP 
-	@0 
-	D=M
-	M=M-1
-	@0
-	D;JEQ
-	@24576
-	A=A-D 
-	M=-1 //set RAM[24576 - n] value into -1 (black screen)
-	@18
-	0;JMP //repeat the loop
+(check)
+@SCREEN
+D=A
+@0
+M=D
+
+@KBD
+D=M
+@black
+D;JGT
+@white
+D;JEQ
+
+@check
+0;JMP
+//////////////////////////
+(black)
+@1
+M=-1
+@change
+0;JMP
+///////////////////////////
+(white)
+@1
+M=0
+@change
+0;JMP
+/////////////////////////
+(change)
+@1
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
+D=M
+@KBD
+D=A-D
+@change
+D;JGT
+@check
+0;JMP
+//16384~24575
