@@ -70,4 +70,4 @@ CHIP CPU {
 	Or(a=ld3,b=ldt,out=ld);
 
 	PC(in=A,load=ld,inc=true,reset=reset,out[0..14]=pc);
-}
+}//Or16、And、Not、Mux16、ARegister、ALU、DRegister、PC
